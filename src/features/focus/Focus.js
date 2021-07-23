@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-4;
-import { StyleSheet, View, Text, NativeEventEmitter } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import { RoundedButton } from "../../components/RoundedButton";
+import { colors } from "../../utils/colors";
+import { fontSizes, paddingSizes } from "../../utils/sizes";
 // named export
 export const Focus = ({ addSubject }) => {
   const [tempItem, setTempItem] = useState(null);
@@ -36,13 +37,13 @@ const styles = StyleSheet.create({
   },
   titleConatiner: {
     flex: 0.5,
-    padding: 16,
+    paddingHorizontal: paddingSizes.md,
     justifyContent: "center"
   },
   title: {
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
-    fontSize: 22,
+    fontSize: fontSizes.lg,
     paddingBottom: 20
   },
   inputContainer: {

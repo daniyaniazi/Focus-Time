@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Focus } from "./src/features/focus/Focus";
+import { colors } from "./src/utils/colors";
 
 // this file exports App
 export default function App() {
@@ -20,9 +21,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#225225",
-
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: colors.darkGreen
   }
 });
