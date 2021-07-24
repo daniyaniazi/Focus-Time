@@ -93,16 +93,16 @@ export const Timer = ({ focusSubject, onTimerEnd, clearSubject }) => {
               setIsStarted(true);
             }}
           />
-        )}
-      </View>
-      <View style={styles.clearButton}>
-        <RoundedButton
-          title="-"
-          size={50}
-          onPress={() => {
-            clearSubject();
-          }}
-        />
+        )}{" "}
+        <View style={styles.clearButton}>
+          <RoundedButton
+            title="-"
+            size={50}
+            onPress={() => {
+              clearSubject();
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     flex: 0.3,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    position: "relative"
   },
   progressBar: {
     width: 500,
@@ -135,6 +136,9 @@ const styles = StyleSheet.create({
     marginBottom: marginSizes.md
   },
   clearButton: {
-    margin: marginSizes.md
+    margin: marginSizes.md,
+    position: "absolute",
+    bottom: 0,
+    left: "20%"
   }
 });
