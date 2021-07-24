@@ -1,26 +1,55 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Vibration, Platform } from "react-native";
 import { Countdown } from "../../components/Countdown";
 import { colors } from "../../utils/colors";
-import { fontSizes, paddingSizes } from "../../utils/sizes";
+import { fontSizes, marginSizes, paddingSizes } from "../../utils/sizes";
 import { RoundedButton } from "../../components/RoundedButton";
 import { ProgressBar } from "react-native-paper";
 import { Timming } from "./Timming";
 import { useKeepAwake } from "expo-keep-awake";
 
-export const Timer = ({ focusSubject }) => {
+const DEFAULT_TIME = 0.1;
+export const Timer = ({ focusSubject, onTimerEnd, clearSubject }) => {
   useKeepAwake();
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
-  const [minutes, setMinutes] = useState(20);
+  const [minutes, setMinutes] = useState(DEFAULT_TIME);
+
   const onProgress = (progress) => {
     setProgress(progress);
   };
+
+  const onEnd = () => {
+    // invoke when timer end
+    vibrate();
+    setMinutes(DEFAULT_TIME);
+    setProgress(1);
+    setIsStarted(false);
+    onTimerEnd();
+  };
+
   const changeTime = (min) => {
     setMinutes(min);
     setProgress(1);
     setIsStarted(false);
   };
+
+  const vibrate = () => {
+    if (Platform.OS === "ios") {
+      // vibrate after every 1 sec
+      const interval = setInterval(() => {
+        Vibration.vibrate();
+      }, 1000);
+      // vibrate only for 10 sec
+      setTimeout(() => {
+        clearInterval(interval);
+      }, 10000);
+    } else {
+      Vibration.vibrate(10000);
+      // on Andriod it does self cancle
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.Countdown}>
@@ -28,6 +57,7 @@ export const Timer = ({ focusSubject }) => {
           minutes={minutes}
           isPaused={!isStarted}
           onProgress={onProgress}
+          onEnd={onEnd}
         />
       </View>
       <View style={{ paddingTop: paddingSizes.sm }}>
@@ -50,7 +80,7 @@ export const Timer = ({ focusSubject }) => {
         {isStarted ? (
           <RoundedButton
             title="Pause"
-            size={75}
+            size={70}
             onPress={() => {
               setIsStarted(false);
             }}
@@ -58,12 +88,21 @@ export const Timer = ({ focusSubject }) => {
         ) : (
           <RoundedButton
             title="Start"
-            size={75}
+            size={70}
             onPress={() => {
               setIsStarted(true);
             }}
           />
         )}
+      </View>
+      <View style={styles.clearButton}>
+        <RoundedButton
+          title="-"
+          size={50}
+          onPress={() => {
+            clearSubject();
+          }}
+        />
       </View>
     </View>
   );
@@ -76,7 +115,7 @@ const styles = StyleSheet.create({
   title: { color: colors.white, textAlign: "center", fontSize: fontSizes.lg },
   task: { color: colors.white, fontWeight: "bold", textAlign: "center" },
   Countdown: {
-    flex: 0.4,
+    flex: 0.6,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -92,6 +131,10 @@ const styles = StyleSheet.create({
   timerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: marginSizes.md
+  },
+  clearButton: {
+    margin: marginSizes.md
   }
 });
