@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, AsyncStorage } from "react-native";
 import { Focus } from "./src/features/focus/Focus";
 import { FocusHistory } from "./src/features/focus/FocusHistory";
 import { Timer } from "./src/features/timer/Timer";
@@ -27,7 +27,32 @@ export default function App() {
   const onClear = () => {
     setFocusHistory([]);
   };
-  console.log(focusHistory);
+  const saveHistory = async () => {
+    try {
+      await AsyncStorage.setItem("focusHistory", JSON.stringify(focusHistory));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const loadHistory = async () => {
+    try {
+      const history = await AsyncStorage.getItem("focusHistory");
+      console.log(history);
+      if (history && JSON.parse(history).length) {
+        setFocusHistory(JSON.parse(history));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // save every time we have a new history
+  useEffect(() => {
+    saveHistory();
+  }, [focusHistory]);
+  // load on component mount
+  useEffect(() => {
+    loadHistory();
+  }, []);
   return (
     <View style={styles.container}>
       {focusSubject ? (
@@ -43,10 +68,10 @@ export default function App() {
           }}
         />
       ) : (
-        <>
+        <View style={styles.innerContainer}>
           <Focus addSubject={setFocusSubject} />
           <FocusHistory FocusHistory={focusHistory} onClear={onClear} />
-        </>
+        </View>
       )}
     </View>
   );
@@ -56,6 +81,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: paddingSizes.lg,
-    backgroundColor: colors.darkGreen
+    backgroundColor: colors.darkGreen,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  innerContainer: {
+    flex: 0.9
   }
 });

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import { RoundedButton } from "../../components/RoundedButton";
 import { colors } from "../../utils/colors";
-import { fontSizes, paddingSizes } from "../../utils/sizes";
+import { fontSizes, marginSizes, paddingSizes } from "../../utils/sizes";
 // named export
 export const Focus = ({ addSubject }) => {
   const [subject, setSubject] = useState(null);
@@ -37,10 +37,10 @@ export const Focus = ({ addSubject }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 0.3,
+    marginVertical: marginSizes.md
   },
   titleConatiner: {
-    flex: 0.5,
     paddingHorizontal: paddingSizes.md,
     justifyContent: "center"
   },

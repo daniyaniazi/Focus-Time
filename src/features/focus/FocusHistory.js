@@ -42,7 +42,7 @@ export const FocusHistory = ({ FocusHistory, onClear }) => {
 const styles = (status) =>
   StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 0.6,
       alignItems: "center",
       marginHorizontal: marginSizes.sm
     },
