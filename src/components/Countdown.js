@@ -23,10 +23,14 @@ export const Countdown = ({ minutes = 20, isPaused }) => {
   };
 
   useEffect(() => {
+    if (isPaused) {
+      return;
+    }
     //run count down every 1 sec
     interval.current = setInterval(countDown, 1000);
     return () => clearInterval(interval.current);
-  });
+    // tun only when not paused
+  }, [isPaused]);
   return (
     <Text style={styles.text}>
       {formatTime(minute)}:{formatTime(seconds)}

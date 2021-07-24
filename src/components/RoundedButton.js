@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { paddingSizes } from "../utils/sizes";
 
 // staateless function
 export const RoundedButton = ({
@@ -26,10 +27,12 @@ const styles = (size) =>
       justifyContent: "center",
       alignItems: "center",
       borderColor: "white",
-      borderWidth: 2
+      borderWidth: 2,
+      padding: paddingSizes.xl
     },
     text: {
       color: "white",
-      fontSize: size / 3
+      fontSize: size / 3,
+      letterSpacing: 2
     }
   });
