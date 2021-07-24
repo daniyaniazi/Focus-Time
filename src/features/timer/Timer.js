@@ -6,8 +6,10 @@ import { fontSizes, paddingSizes } from "../../utils/sizes";
 import { RoundedButton } from "../../components/RoundedButton";
 import { ProgressBar } from "react-native-paper";
 import { Timming } from "./Timming";
+import { useKeepAwake } from "expo-keep-awake";
 
 export const Timer = ({ focusSubject }) => {
+  useKeepAwake();
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
   const [minutes, setMinutes] = useState(20);
