@@ -5,19 +5,30 @@ import { colors } from "../../utils/colors";
 import { fontSizes, paddingSizes } from "../../utils/sizes";
 import { RoundedButton } from "../../components/RoundedButton";
 import { ProgressBar } from "react-native-paper";
+import { Timming } from "./Timming";
 
 export const Timer = ({ focusSubject }) => {
   const [isStarted, setIsStarted] = useState(false);
-  const [progress, setprogress] = useState(1);
+  const [progress, setProgress] = useState(1);
+  const [minutes, setMinutes] = useState(20);
   const onProgress = (progress) => {
-    setprogress(progress);
+    setProgress(progress);
+  };
+  const changeTime = (min) => {
+    setMinutes(min);
+    setProgress(1);
+    setIsStarted(false);
   };
   return (
     <View style={styles.container}>
       <View style={styles.Countdown}>
-        <Countdown isPaused={!isStarted} onProgress={onProgress} />
+        <Countdown
+          minutes={minutes}
+          isPaused={!isStarted}
+          onProgress={onProgress}
+        />
       </View>
-      <View style={{ paddingTop: paddingSizes.xxxl }}>
+      <View style={{ paddingTop: paddingSizes.sm }}>
         <Text style={styles.title}>Focusing On :</Text>
         <Text style={styles.task}>{focusSubject}</Text>
       </View>
@@ -28,11 +39,16 @@ export const Timer = ({ focusSubject }) => {
           style={{ height: 10 }}
         />
       </View>
+      <View style={styles.timerContainer}>
+        <Timming OnChangeTime={changeTime} min={10} />
+        <Timming OnChangeTime={changeTime} min={15} />
+        <Timming OnChangeTime={changeTime} min={20} />
+      </View>
       <View style={styles.buttonWrapper}>
         {isStarted ? (
           <RoundedButton
             title="Pause"
-            size={60}
+            size={75}
             onPress={() => {
               setIsStarted(false);
             }}
@@ -40,7 +56,7 @@ export const Timer = ({ focusSubject }) => {
         ) : (
           <RoundedButton
             title="Start"
-            size={60}
+            size={75}
             onPress={() => {
               setIsStarted(true);
             }}
@@ -58,7 +74,7 @@ const styles = StyleSheet.create({
   title: { color: colors.white, textAlign: "center", fontSize: fontSizes.lg },
   task: { color: colors.white, fontWeight: "bold", textAlign: "center" },
   Countdown: {
-    flex: 0.5,
+    flex: 0.4,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -70,5 +86,10 @@ const styles = StyleSheet.create({
   progressBar: {
     width: 500,
     margin: "auto"
+  },
+  timerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });

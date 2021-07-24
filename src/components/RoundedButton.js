@@ -27,8 +27,7 @@ const styles = (size) =>
       justifyContent: "center",
       alignItems: "center",
       borderColor: "white",
-      borderWidth: 2,
-      padding: paddingSizes.xl
+      borderWidth: 2
     },
     text: {
       color: "white",

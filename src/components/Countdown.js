@@ -7,11 +7,12 @@ const minutesToMilis = (min) => min * 1000 * 60;
 const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
 export const Countdown = ({ minutes = 20, isPaused, onProgress }) => {
-  const [millis, setMillis] = useState(minutesToMilis(minutes));
+  const [millis, setMillis] = useState(minutesToMilis(null));
   const interval = React.useRef(null);
   const minute = Math.floor(millis / 1000 / 60) % 60;
   const seconds = Math.floor(millis / 1000) % 60;
 
+  // countdown run after evry 1 sec and minus 1 sec from timleft in milis
   const countDown = () => {
     setMillis((millis) => {
       if (millis === 0) {
@@ -25,9 +26,15 @@ export const Countdown = ({ minutes = 20, isPaused, onProgress }) => {
       return timeLeft;
     });
   };
+  useEffect(() => {
+    // every time minutes changes set new milies
+    setMillis(minutesToMilis(minutes));
+  }, [minutes]);
 
+  // On initail render as well as when paused
   useEffect(() => {
     if (isPaused) {
+      if (interval.current) clearInterval(interval.current);
       return;
     }
     //run count down every 1 sec
