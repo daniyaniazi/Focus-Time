@@ -15,10 +15,11 @@ export default function App() {
   const [focusSubject, setFocusSubject] = useState(null);
   const [focusHistory, setFocusHistory] = useState([]);
 
-  const addFocusHistorySubjectWithState = (focusSubject, status) => {
+  const addFocusHistorySubjectWithStatus = (focusSubject, status) => {
     setFocusHistory([
       ...focusHistory,
       {
+        key: String(focusHistory.length + 1),
         subject: focusSubject,
         status: status
       }
@@ -59,11 +60,11 @@ export default function App() {
         <Timer
           focusSubject={focusSubject}
           onTimerEnd={() => {
-            addFocusHistorySubjectWithState(focusSubject, STATUS.COMPELTE);
+            addFocusHistorySubjectWithStatus(focusSubject, STATUS.COMPELTE);
             setFocusSubject(null);
           }}
           clearSubject={() => {
-            addFocusHistorySubjectWithState(focusSubject, STATUS.FAIL);
+            addFocusHistorySubjectWithStatus(focusSubject, STATUS.FAIL);
             setFocusSubject(null);
           }}
         />
